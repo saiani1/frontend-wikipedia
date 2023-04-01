@@ -38,7 +38,7 @@ const WikiDetailPage = () => {
           )
         );
         setMode("read");
-      } else setMode("read");
+      } else if (name === "cancel") setMode("read");
     },
     [data.id, modifyContents, setTotalData, totalData]
   );
@@ -52,14 +52,18 @@ const WikiDetailPage = () => {
   );
 
   return (
-    <div>
+    <div className={styles.wrap}>
       {isFetching && (
         <>
           <h2>{data.title}</h2>
           {mode === "read" ? (
             <p>{data.contents}</p>
           ) : (
-            <textarea value={modifyContents} onChange={contentChangeHandler} />
+            <textarea
+              value={modifyContents}
+              rows={5}
+              onChange={contentChangeHandler}
+            />
           )}
           <div className={styles.btnWrap} onClick={btnClickHandler}>
             {mode === "read" ? (
@@ -71,7 +75,11 @@ const WikiDetailPage = () => {
                 <button type="button" name="save">
                   저장
                 </button>
-                <button type="button" name="cancel">
+                <button
+                  type="button"
+                  name="cancel"
+                  className={styles.cancelBtn}
+                >
                   취소
                 </button>
               </div>

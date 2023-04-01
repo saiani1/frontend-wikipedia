@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import styles from "./main.module.scss";
-import { totalDataState } from "../store/wikiState";
+import { totalDataState, pageState } from "../store/wikiState";
 import Pagination from "components/Pagination";
 import AddWikiFormModal from "components/AddWikiFormModal";
 
 const Main = () => {
-  const [page, setPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
+  const page = useRecoilValue(pageState);
   const totalData = useRecoilValue(totalDataState);
   const offset = (page - 1) * 5;
 
@@ -34,7 +34,7 @@ const Main = () => {
           </li>
         ))}
       </ul>
-      <Pagination total={totalData.length} page={page} setPage={setPage} />
+      <Pagination total={totalData.length} />
     </div>
   );
 };

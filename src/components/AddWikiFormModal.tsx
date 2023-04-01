@@ -49,19 +49,21 @@ const AddWikiFormModal = ({ setOpenModal }: IProps) => {
 
   return (
     <>
-      <div className={styles.backOveray} />
+      <div className={styles.background} />
       <form className={styles.formWrap} onSubmit={submitHandler}>
-        <h2>위키 등록</h2>
-        <div className={styles.titleInputWrap}>
-          <label htmlFor="title">제목</label>
-          <input type="text" id="title" onChange={inputChangeHandler} />
-        </div>
-        <div className={styles.contentsInputWrap}>
-          <label htmlFor="contents">내용</label>
-          <textarea id="contents" onChange={inputChangeHandler} />
+        <h2>위키피디아 추가</h2>
+        <div className={styles.inputsWrap}>
+          <div className={styles.inputWrap}>
+            <label htmlFor="title">제목</label>
+            <input type="text" id="title" onChange={inputChangeHandler} />
+          </div>
+          <div className={styles.inputWrap}>
+            <label htmlFor="contents">내용</label>
+            <textarea id="contents" rows={5} onChange={inputChangeHandler} />
+          </div>
         </div>
         <div className={styles.btnWrap} onClick={btnClickHandler}>
-          <button type="submit" name="submit">
+          <button type="submit" name="submit" className={styles.submitBtn}>
             등록
           </button>
           <button type="button" name="cancel">
