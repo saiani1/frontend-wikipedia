@@ -7,7 +7,7 @@ import { totalDataState } from "../store/wikiState";
 
 const WikiDetailPage = () => {
   const params = useParams();
-  const [totalData] = useRecoilState(totalDataState);
+  const [totalData, setTotalData] = useRecoilState(totalDataState);
   const [mode, setMode] = useState("read");
   const [data, setData] = useState({
     id: 0,
@@ -15,12 +15,15 @@ const WikiDetailPage = () => {
     contents: "",
   });
   const [modifyContents, setModifyContents] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
+    setIsFetching(false);
     const filterData = totalData.find((wiki) => wiki.id === Number(params.id));
     if (filterData) {
       setData(filterData);
       setModifyContents(filterData.contents);
+      setIsFetching(true);
     }
   }, [params, totalData]);
 
@@ -30,11 +33,15 @@ const WikiDetailPage = () => {
       console.log(name);
       if (name === "modify") setMode(name);
       else if (name === "save") {
-        setData({ ...data, contents: modifyContents });
+        setTotalData(
+          totalData.map((wiki) =>
+            wiki.id === data.id ? { ...wiki, contents: modifyContents } : wiki
+          )
+        );
         setMode("read");
       } else setMode("read");
     },
-    [data, modifyContents]
+    [data.id, modifyContents, setTotalData, totalData]
   );
 
   const contentChangeHandler = useCallback(
@@ -47,28 +54,32 @@ const WikiDetailPage = () => {
 
   return (
     <div>
-      <h2>{data.title}</h2>
-      {mode === "read" ? (
-        <p>{data.contents}</p>
-      ) : (
-        <textarea value={modifyContents} onChange={contentChangeHandler} />
-      )}
-      <div className={styles.btnWrap} onClick={btnClickHandler}>
-        {mode === "read" ? (
-          <button type="button" name="modify">
-            수정
-          </button>
-        ) : (
-          <div className={styles.modifyBtnWrap}>
-            <button type="button" name="save">
-              저장
-            </button>
-            <button type="button" name="cancel">
-              취소
-            </button>
+      {isFetching && (
+        <>
+          <h2>{data.title}</h2>
+          {mode === "read" ? (
+            <p>{data.contents}</p>
+          ) : (
+            <textarea value={modifyContents} onChange={contentChangeHandler} />
+          )}
+          <div className={styles.btnWrap} onClick={btnClickHandler}>
+            {mode === "read" ? (
+              <button type="button" name="modify">
+                수정
+              </button>
+            ) : (
+              <div className={styles.modifyBtnWrap}>
+                <button type="button" name="save">
+                  저장
+                </button>
+                <button type="button" name="cancel">
+                  취소
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
