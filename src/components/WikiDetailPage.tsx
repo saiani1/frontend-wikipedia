@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 import styles from "./wikiDetailPage.module.scss";
-import { DUMMY_DATA } from "assets/datas/dummyData";
+import { totalDataState } from "../store/wikiState";
 
 const WikiDetailPage = () => {
   const params = useParams();
+  const [totalData] = useRecoilState(totalDataState);
   const [mode, setMode] = useState("read");
   const [data, setData] = useState({
     id: 0,
@@ -15,12 +17,12 @@ const WikiDetailPage = () => {
   const [modifyContents, setModifyContents] = useState("");
 
   useEffect(() => {
-    const filterData = DUMMY_DATA.find((wiki) => wiki.id === Number(params.id));
+    const filterData = totalData.find((wiki) => wiki.id === Number(params.id));
     if (filterData) {
       setData(filterData);
       setModifyContents(filterData.contents);
     }
-  }, [params]);
+  }, [params, totalData]);
 
   const btnClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -32,7 +34,7 @@ const WikiDetailPage = () => {
         setMode("read");
       } else setMode("read");
     },
-    [data, modifyContents, mode]
+    [data, modifyContents]
   );
 
   const contentChangeHandler = useCallback(
@@ -40,7 +42,7 @@ const WikiDetailPage = () => {
       const value = e.target.value;
       setModifyContents(value);
     },
-    [data]
+    []
   );
 
   return (

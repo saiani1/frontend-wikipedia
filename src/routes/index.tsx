@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+
 import WikiDetailPage from "components/WikiDetailPage";
 import Main from "./Main";
 

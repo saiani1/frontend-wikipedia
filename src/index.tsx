@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
+import "./index.scss";
 import Routes from "./routes";
 
 const root = ReactDOM.createRoot(
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes />
+      <RecoilRoot>
+        <Routes />
+      </RecoilRoot>
     </BrowserRouter>
   </React.StrictMode>
 );

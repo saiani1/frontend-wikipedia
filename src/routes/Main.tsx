@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 
-import { DUMMY_DATA } from "assets/datas/dummyData";
+import { totalDataState } from "../store/wikiState";
 import Pagination from "components/Pagination";
+import AddWikiFormModal from "components/AddWikiFormModal";
 
 const Main = () => {
   const [page, setPage] = useState(1);
+  const [openModal, setOpenModal] = useState(false);
+  const totalData = useRecoilValue(totalDataState);
   const offset = (page - 1) * 5;
+
+  const openModalBtnClickHandler = useCallback(() => {
+    setOpenModal((prev) => !prev);
+  }, [setOpenModal]);
 
   return (
     <div>
-      <button type="button">위키 추가</button>
+      {openModal && <AddWikiFormModal setOpenModal={setOpenModal} />}
+      <button type="button" onClick={openModalBtnClickHandler}>
+        위키 추가
+      </button>
       <ul>
-        {DUMMY_DATA.slice(offset, offset + 5).map((wiki) => (
+        {totalData.slice(offset, offset + 5).map((wiki) => (
           <li key={wiki.id}>
             <Link to={`/wiki/${wiki.id}`}>{wiki.title}</Link>
           </li>
         ))}
       </ul>
-      <Pagination total={DUMMY_DATA.length} page={page} setPage={setPage} />
+      <Pagination total={totalData.length} setPage={setPage} />
     </div>
   );
 };
