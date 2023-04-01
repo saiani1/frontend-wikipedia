@@ -70,7 +70,6 @@ module.exports = {
     "no-use-before-define": "off",
     "no-useless-concat": "off",
     "react/jsx-props-no-spreading": "off",
-    "@typescript-eslint/no-var-requires": 0,
   },
   parserOptions: {
     parser: "@typescript-eslint/parser",
