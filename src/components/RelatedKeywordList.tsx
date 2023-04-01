@@ -4,7 +4,6 @@ import { useRecoilValue } from "recoil";
 import styles from "./relatedKeywordList.module.scss";
 import { totalDataState } from "store/wikiState";
 import { IWiki } from "types/wiki";
-import WikiItem from "./WikiItem";
 
 interface IProps {
   keyword: string;
