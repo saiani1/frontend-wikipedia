@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 
 import styles from "./wikiDetailPage.module.scss";
 import { totalDataState } from "../store/wikiState";
+import RelatedKeywordList from "./RelatedKeywordList";
 
 const WikiDetailPage = () => {
   const params = useParams();
@@ -87,6 +88,7 @@ const WikiDetailPage = () => {
           </div>
         </>
       )}
+      <RelatedKeywordList keyword={data.title} />
     </div>
   );
 };
