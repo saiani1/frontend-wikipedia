@@ -30,7 +30,6 @@ const WikiDetailPage = () => {
   const btnClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       const { name } = e.target as HTMLButtonElement;
-      console.log(name);
       if (name === "modify") setMode(name);
       else if (name === "save") {
         setTotalData(

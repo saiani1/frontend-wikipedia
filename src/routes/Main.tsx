@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
+import styles from "./main.module.scss";
 import { totalDataState } from "../store/wikiState";
 import Pagination from "components/Pagination";
 import AddWikiFormModal from "components/AddWikiFormModal";
@@ -17,19 +18,23 @@ const Main = () => {
   }, [setOpenModal]);
 
   return (
-    <div>
+    <div className={styles.wrap}>
       {openModal && <AddWikiFormModal setOpenModal={setOpenModal} />}
-      <button type="button" onClick={openModalBtnClickHandler}>
-        위키 추가
+      <button
+        type="button"
+        className={styles.addBtn}
+        onClick={openModalBtnClickHandler}
+      >
+        신규 위키피디아 추가
       </button>
-      <ul>
+      <ul className={styles.wikiWrap}>
         {totalData.slice(offset, offset + 5).map((wiki) => (
-          <li key={wiki.id}>
+          <li key={wiki.id} className={styles.wiki}>
             <Link to={`/wiki/${wiki.id}`}>{wiki.title}</Link>
           </li>
         ))}
       </ul>
-      <Pagination total={totalData.length} setPage={setPage} />
+      <Pagination total={totalData.length} page={page} setPage={setPage} />
     </div>
   );
 };
