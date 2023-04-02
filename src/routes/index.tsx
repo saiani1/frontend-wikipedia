@@ -5,6 +5,7 @@ import styles from "./route.module.scss";
 import WikiDetailPage from "components/WikiDetailPage";
 import Main from "./Main";
 import Header from "components/Header";
+import NotFound from "components/NotFound";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/wiki/:id" element={<WikiDetailPage />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Toaster
         containerStyle={{

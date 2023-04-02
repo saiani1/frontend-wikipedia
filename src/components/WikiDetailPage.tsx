@@ -7,6 +7,7 @@ import styles from "./wikiDetailPage.module.scss";
 import { totalDataState } from "../store/wikiState";
 import RelatedKeywordList from "./RelatedKeywordList";
 import { IWiki } from "types/wiki";
+import NotFound from "./NotFound";
 
 const WikiDetailPage = () => {
   const navigate = useNavigate();
@@ -134,7 +135,7 @@ const WikiDetailPage = () => {
           </div>
         </>
       )}
-      <RelatedKeywordList keyword={data.title} />
+      {data.title ? <RelatedKeywordList keyword={data.title} /> : <NotFound />}
     </div>
   );
 };

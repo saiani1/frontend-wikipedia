@@ -1,14 +1,10 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./wikiItem.module.scss";
+import { IWiki } from "types/wiki";
 
 interface IProps {
-  wiki: {
-    id: number;
-    title: string;
-    contents: string;
-  };
+  wiki: IWiki;
 }
 
 const WikiItem = ({ wiki }: IProps) => {

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import classNames from "classnames/bind";
 import { useRecoilState } from "recoil";
 

@@ -6,6 +6,7 @@ import { totalDataState, pageState } from "../store/wikiState";
 import Pagination from "components/Pagination";
 import AddWikiFormModal from "components/AddWikiFormModal";
 import WikiItem from "components/WikiItem";
+import { IWiki } from "types/wiki";
 
 const Main = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -28,7 +29,7 @@ const Main = () => {
         신규 위키피디아 추가
       </button>
       <ul className={styles.wikiWrap}>
-        {totalData.slice(offset, offset + 5).map((wiki) => (
+        {totalData.slice(offset, offset + 5).map((wiki: IWiki) => (
           <WikiItem key={wiki.id} wiki={wiki} />
         ))}
       </ul>
