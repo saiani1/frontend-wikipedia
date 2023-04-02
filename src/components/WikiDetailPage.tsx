@@ -1,14 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
 import styles from "./wikiDetailPage.module.scss";
 import { totalDataState } from "../store/wikiState";
 import RelatedKeywordList from "./RelatedKeywordList";
+import { IWiki } from "types/wiki";
 
 const WikiDetailPage = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const [totalData, setTotalData] = useRecoilState(totalDataState);
+  const [transformContents, setTransformContents] = useState("");
   const [mode, setMode] = useState("read");
   const [data, setData] = useState({
     id: 0,
@@ -18,15 +21,27 @@ const WikiDetailPage = () => {
   const [modifyContents, setModifyContents] = useState("");
   const [isFetching, setIsFetching] = useState(false);
 
-  useEffect(() => {
-    setIsFetching(false);
-    const filterData = totalData.find((wiki) => wiki.id === Number(params.id));
-    if (filterData) {
-      setData(filterData);
-      setModifyContents(filterData.contents);
-      setIsFetching(true);
-    }
-  }, [params, totalData]);
+  const transformContentsHandler = useCallback(
+    (filterData: IWiki) => {
+      const tmpArr = totalData.filter(
+        (wiki) =>
+          filterData.contents.includes(wiki.title) &&
+          wiki.title !== filterData.title
+      );
+      if (tmpArr.length !== 0) {
+        let filtered: string;
+        tmpArr.forEach((wiki) => {
+          if (filtered === undefined) filtered = filterData.contents;
+          filtered = filtered.replaceAll(
+            wiki.title,
+            `<button type='button' name=${wiki.id}>${wiki.title}</button>`
+          );
+          setTransformContents(filtered);
+        });
+      } else setTransformContents(filterData.contents);
+    },
+    [totalData]
+  );
 
   const btnClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -52,13 +67,38 @@ const WikiDetailPage = () => {
     []
   );
 
+  const keywordBtnClickHandler = useCallback(
+    (e: React.MouseEvent<HTMLParagraphElement>) => {
+      const { name } = e.target as HTMLButtonElement;
+      if (name !== undefined) {
+        navigate(`/wiki/${name}`);
+      }
+    },
+    [navigate]
+  );
+
+  useEffect(() => {
+    setIsFetching(false);
+    const filterData = totalData.find((wiki) => wiki.id === Number(params.id));
+    if (filterData) {
+      transformContentsHandler(filterData);
+      setData(filterData);
+      setModifyContents(filterData.contents);
+      setIsFetching(true);
+    }
+  }, [params, totalData, setModifyContents, transformContentsHandler]);
+
   return (
     <div className={styles.wrap}>
       {isFetching && (
         <>
           <h2>{data.title}</h2>
           {mode === "read" ? (
-            <p>{data.contents}</p>
+            <p
+              dangerouslySetInnerHTML={{ __html: transformContents }}
+              onClick={keywordBtnClickHandler}
+              className={styles.contents}
+            ></p>
           ) : (
             <textarea
               value={modifyContents}
