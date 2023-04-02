@@ -30,6 +30,11 @@ const WikiDetailPage = () => {
           filterData.contents.includes(wiki.title) &&
           wiki.title !== filterData.title
       );
+      tmpArr.sort((a, b) => {
+        if (a.title.length > b.title.length) return -1;
+        if (a.title.length < b.title.length) return 1;
+        return 0;
+      });
       if (tmpArr.length !== 0) {
         let filtered: string;
         tmpArr.forEach((wiki) => {
