@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useRecoilState } from "recoil";
+import toast from "react-hot-toast";
 
 import styles from "./addWikiFormModal.module.scss";
 import { totalDataState } from "store/wikiState";
@@ -39,9 +40,14 @@ const AddWikiFormModal = ({ setOpenModal }: IProps) => {
       e.preventDefault();
 
       if (newData.title !== "" && newData.contents !== "") {
-        const newArr = totalData.concat(newData);
-        setTotalData(newArr);
-        setOpenModal(false);
+        if (totalData.find((wiki) => wiki.title === newData.title))
+          toast.error("이미 동일한 제목의 위키가 있습니다.");
+        else {
+          const newArr = totalData.concat(newData);
+          setTotalData(newArr);
+          toast.success("위키가 성공적으로 등록되었습니다.");
+          setOpenModal(false);
+        }
       }
     },
     [newData, setOpenModal, setTotalData, totalData]

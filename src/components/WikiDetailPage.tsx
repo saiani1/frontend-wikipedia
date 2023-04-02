@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import toast from "react-hot-toast";
 
 import styles from "./wikiDetailPage.module.scss";
 import { totalDataState } from "../store/wikiState";
@@ -48,15 +49,20 @@ const WikiDetailPage = () => {
       const { name } = e.target as HTMLButtonElement;
       if (name === "modify") setMode(name);
       else if (name === "save") {
-        setTotalData(
-          totalData.map((wiki) =>
-            wiki.id === data.id ? { ...wiki, contents: modifyContents } : wiki
-          )
-        );
-        setMode("read");
+        if (modifyContents === data.contents)
+          toast.error("위키 내용이 변경되지 않았습니다.");
+        else {
+          setTotalData(
+            totalData.map((wiki) =>
+              wiki.id === data.id ? { ...wiki, contents: modifyContents } : wiki
+            )
+          );
+          toast.success("위키 내용이 수정되었습니다.");
+          setMode("read");
+        }
       } else if (name === "cancel") setMode("read");
     },
-    [data.id, modifyContents, setTotalData, totalData]
+    [data.contents, data.id, modifyContents, setTotalData, totalData]
   );
 
   const contentChangeHandler = useCallback(
