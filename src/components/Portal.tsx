@@ -1,4 +1,3 @@
-import { SetStateAction } from "react";
 import ReactDOM from "react-dom";
 
 import AddWikiFormModal from "./AddWikiFormModal";
@@ -8,7 +7,7 @@ const Modal = () => {
     <>
       {ReactDOM.createPortal(
         <AddWikiFormModal
-          setOpenModal={function (value: SetStateAction<boolean>): void {
+          setOpenModal={function (): void {
             throw new Error("Function not implemented.");
           }}
         />,

@@ -24,16 +24,16 @@
       display: flex;
       align-items: center;
 
-      button {
-        font-size: 15px;
-        font-weight: 500;
+      a {
+        font-size: 16px;
+        font-weight: 600;
         color: #68A3B6;
       }
 
       &~li:before {
         display: block;
         content: ' ';
-        margin: 1px 10px 0 0;
+        margin: -3px 10px 0 0;
         width: 1px;
         height: 14px;
         background-color: #ccc;

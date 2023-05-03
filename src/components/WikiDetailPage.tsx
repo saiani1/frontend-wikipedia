@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 
 import styles from "./wikiDetailPage.module.scss";
 import { totalDataState } from "../store/wikiState";
+import { transformData } from "util/transformData";
 import RelatedKeywordList from "./RelatedKeywordList";
-import { IWiki } from "types/wiki";
 import NotFound from "./NotFound";
 
 const WikiDetailPage = () => {
@@ -22,39 +22,6 @@ const WikiDetailPage = () => {
     contents: "",
   });
   const [isFetching, setIsFetching] = useState(false);
-
-  const transformContentsHandler = useCallback(
-    (filterData: IWiki) => {
-      const tmpArr = totalData.filter(
-        (wiki) =>
-          filterData.contents.includes(wiki.title) &&
-          wiki.title !== filterData.title
-      );
-      tmpArr.sort((a, b) => {
-        if (a.title.length > b.title.length) return -1;
-        if (a.title.length < b.title.length) return 1;
-        return 0;
-      });
-      if (tmpArr.length !== 0) {
-        let compareStr: string = filterData.contents;
-        let transformStr: string;
-        tmpArr.forEach((wiki) => {
-          if (transformStr === undefined) transformStr = filterData.contents;
-          if (compareStr.includes(wiki.title)) {
-            compareStr = compareStr.replaceAll(wiki.title, "");
-            transformStr = transformStr.replaceAll(
-              wiki.title,
-              `<button type='button' name=${wiki.id}>${wiki.title}</button>`
-            );
-            console.log(compareStr);
-            setTransformContents(transformStr);
-          }
-        });
-      } else setTransformContents(filterData.contents);
-    },
-    [totalData]
-  );
-  // console.log(transformContents);
 
   const btnClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -99,12 +66,13 @@ const WikiDetailPage = () => {
     setIsFetching(false);
     const filterData = totalData.find((wiki) => wiki.id === Number(params.id));
     if (filterData) {
-      transformContentsHandler(filterData);
+      const transData = transformData(totalData, filterData);
+      setTransformContents(transData);
       setData(filterData);
       setModifyContents(filterData.contents);
       setIsFetching(true);
     }
-  }, [params, totalData, setModifyContents, transformContentsHandler]);
+  }, [params, totalData, setModifyContents, transformContents]);
 
   return (
     <div className={styles.wrap}>

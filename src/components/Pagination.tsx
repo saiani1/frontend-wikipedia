@@ -1,6 +1,6 @@
-import { useEffect, useCallback } from "react";
-import classNames from "classnames/bind";
+import { useCallback } from "react";
 import { useRecoilState } from "recoil";
+import classNames from "classnames/bind";
 
 import styles from "./pagination.module.scss";
 import { pageState } from "store/wikiState";
