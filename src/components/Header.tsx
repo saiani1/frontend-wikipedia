@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header className={styles.wrap}>
       <h1>
-        <Link to="/">글로벌 널리지 WIKIPEDIA</Link>
+        <Link to="/">프론트엔드 용어 WIKIPEDIA</Link>
       </h1>
     </header>
   );

@@ -14,13 +14,13 @@ const WikiDetailPage = () => {
   const params = useParams();
   const [totalData, setTotalData] = useRecoilState(totalDataState);
   const [transformContents, setTransformContents] = useState("");
+  const [modifyContents, setModifyContents] = useState("");
   const [mode, setMode] = useState("read");
   const [data, setData] = useState({
     id: 0,
     title: "",
     contents: "",
   });
-  const [modifyContents, setModifyContents] = useState("");
   const [isFetching, setIsFetching] = useState(false);
 
   const transformContentsHandler = useCallback(
@@ -36,19 +36,25 @@ const WikiDetailPage = () => {
         return 0;
       });
       if (tmpArr.length !== 0) {
-        let filtered: string;
+        let compareStr: string = filterData.contents;
+        let transformStr: string;
         tmpArr.forEach((wiki) => {
-          if (filtered === undefined) filtered = filterData.contents;
-          filtered = filtered.replaceAll(
-            wiki.title,
-            `<button type='button' name=${wiki.id}>${wiki.title}</button>`
-          );
-          setTransformContents(filtered);
+          if (transformStr === undefined) transformStr = filterData.contents;
+          if (compareStr.includes(wiki.title)) {
+            compareStr = compareStr.replaceAll(wiki.title, "");
+            transformStr = transformStr.replaceAll(
+              wiki.title,
+              `<button type='button' name=${wiki.id}>${wiki.title}</button>`
+            );
+            console.log(compareStr);
+            setTransformContents(transformStr);
+          }
         });
       } else setTransformContents(filterData.contents);
     },
     [totalData]
   );
+  // console.log(transformContents);
 
   const btnClickHandler = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {

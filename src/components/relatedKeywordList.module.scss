@@ -22,13 +22,20 @@
 
     li {
       display: flex;
+      align-items: center;
+
+      button {
+        font-size: 15px;
+        font-weight: 500;
+        color: #68A3B6;
+      }
 
       &~li:before {
         display: block;
         content: ' ';
-        margin-right: 10px;
+        margin: 1px 10px 0 0;
         width: 1px;
-        height: 13px;
+        height: 14px;
         background-color: #ccc;
       }
     }
