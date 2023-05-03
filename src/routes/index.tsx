@@ -3,9 +3,9 @@ import { Toaster } from "react-hot-toast";
 
 import styles from "./route.module.scss";
 import Main from "./Main";
-import WikiDetailPage from "components/WikiDetailPage";
-import Header from "components/Header";
-import NotFound from "components/NotFound";
+import Header from "components/common/Header";
+import WikiDetailPage from "components/contents/WikiDetailPage";
+import NotFound from "components/contents/NotFound";
 
 const App = () => {
   return (

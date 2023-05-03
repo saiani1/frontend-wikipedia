@@ -2,10 +2,10 @@ import { useState, useCallback } from "react";
 import { useRecoilValue } from "recoil";
 
 import styles from "./main.module.scss";
-import { totalDataState, pageState } from "../store/wikiState";
-import Pagination from "components/Pagination";
-import AddWikiFormModal from "components/AddWikiFormModal";
-import WikiItem from "components/WikiItem";
+import { totalDataState, pageState } from "store/wikiState";
+import AddWikiFormModal from "components/contents/AddWikiFormModal";
+import Pagination from "components/UI/Pagination";
+import WikiItem from "components/UI/WikiItem";
 import { IWiki } from "types/wiki";
 
 const Main = () => {
@@ -19,7 +19,7 @@ const Main = () => {
   }, [setOpenModal]);
 
   return (
-    <div className={styles.wrap}>
+    <main className={styles.wrap}>
       {openModal && <AddWikiFormModal setOpenModal={setOpenModal} />}
       <button
         type="button"
@@ -34,7 +34,7 @@ const Main = () => {
         ))}
       </ul>
       <Pagination total={totalData.length} />
-    </div>
+    </main>
   );
 };
 

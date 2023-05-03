@@ -4,9 +4,9 @@ import { useRecoilState } from "recoil";
 import toast from "react-hot-toast";
 
 import styles from "./wikiDetailPage.module.scss";
-import { totalDataState } from "../store/wikiState";
+import { totalDataState } from "store/wikiState";
 import { transformData } from "util/transformData";
-import RelatedKeywordList from "./RelatedKeywordList";
+import RelatedKeywordList from "components/UI/RelatedKeywordList";
 import NotFound from "./NotFound";
 
 const WikiDetailPage = () => {
@@ -75,7 +75,7 @@ const WikiDetailPage = () => {
   }, [params, totalData, setModifyContents, transformContents]);
 
   return (
-    <div className={styles.wrap}>
+    <main className={styles.wrap}>
       {isFetching && (
         <>
           <h2>{data.title}</h2>
@@ -115,7 +115,7 @@ const WikiDetailPage = () => {
         </>
       )}
       {data.title ? <RelatedKeywordList keyword={data.title} /> : <NotFound />}
-    </div>
+    </main>
   );
 };
 
